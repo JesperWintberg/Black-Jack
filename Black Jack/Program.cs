@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+using System;
 
 namespace ____
 {
@@ -7,99 +6,109 @@ namespace ____
     {
         static void Main(string[] args)
         {
-            //Skapar 2 Arrays,
+            // avancerad WIP
+            int ess = 11;
+            int kung = 10;
+            int drotning = 10;
+            int Kneckt = 10;    
+
             int[] value = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
-            string[] suits = { "Hjärter", "Ruter", "Klöver", "Spader" };
+            string[] suits = { "Spader", "Hjärter", "Klöver", "Ruter" };
 
-            //skapar random variabel 
-            Random Player = new Random();
-            Random PC = new Random();
+            Random rnd = new Random();
 
-            
-            int rndmvalue = value[Player.Next(0, 11)];
-            string rndmsuit = suits[Player.Next(0,4)];
-           
-            int rndmvalue2=value[Player.Next(0,11)]; 
-            string rndmsuit2 = suits[Player.Next(0,4)]; 
+            bool sant =true;
 
-            int rndmvaluepc = value[PC.Next(0,11)];
-            string rndmsuitpc = suits[PC.Next(0,4)];
-            
-            int rndmvaluepc2 = value[PC.Next(0,11)]; 
+            int playervalue = 0;
+            int playerstart = 0;
+            int pcstart = 0;    
 
-
-            for(int k = 0; k <1; k++)
+            while (sant)
             {
-                //Runda 1
-                Console.WriteLine("Nu kommer du få två kort");
-                Console.WriteLine($"Du fick en {rndmsuit} {rndmvalue} och en {rndmsuit2} {rndmvalue2}");
-                Console.WriteLine($"Du har nu {rndmvalue + rndmvalue2} poäng");
-                Console.WriteLine($"Datorn har {rndmvaluepc + rndmvaluepc2} poäng");
+                int value2 = value[rnd.Next(0, 11)]; 
+                string suit2 = suits[rnd.Next(0, 4)];
+
+                int value3 = value[rnd.Next(0, 11)];
+                string suit3 = suits[rnd.Next(0, 4)];
+
+                int value4 = value[rnd.Next(0, 11)];
+                int value5 = value[rnd.Next(0, 11)]; 
+
+                //Steg 1 
+                Console.WriteLine("Välkommen till Black Jack");
+                Console.WriteLine($"Dina startkort kommer att vara {suit2} {value2} och {suit3} {value3}");
+                Console.WriteLine($"Du kommer att starta med {value2 + value3} poäng");
                 Console.WriteLine("Vill du dra ett nytt kort (y/n)");
-                string val1 = Console.ReadLine();               
+                string val1 = Console.ReadLine();
+                val1.ToLower();
 
-                int g = rndmvalue + rndmvalue2;
-                int l = rndmvaluepc + rndmvaluepc2;
-
-                //skapr ny random variabel för "runda 2"
-                int rdmvalue3 = value[Player.Next(0, 11)];
-                string rndmsuit3= suits[PC.Next(0, 4)];
-
-                if (val1 == "y")
+                if (val1 == "n")
                 {
-                    //Runda 2 "Väg 1" 
-                    Console.WriteLine($"Du drog ett {rndmsuit3} {rdmvalue3}");
-                    Console.WriteLine($"Du har ny {g + rdmvalue3} poäng");
-                    Console.WriteLine($"Datorn har {l} poäng");
-                    Console.WriteLine("Vill du dra ett nytt kort (y/n)");
-                    string val2 = Console.ReadLine();   
-
-                    int u = g + rdmvalue3;
-                    
-                    
-                    if (g > 21)
-                    {
-                        Console.WriteLine("Datorn har vunnit");
-                    }
-
-                    if(val2 == "y")
-                    {
-                        //Runda 3 väg 1
-                        Console.WriteLine();
-                    }
+                    sant = false;
                 }
 
-                else if (val1 == "n")
+                if (playerstart > 21)
                 {
-                    //Runda 2 "Väg 2,Slut"
-                    Console.WriteLine($"Du har fotfarande {g} poäng");
-                    Console.WriteLine($"Datorn drog en {rndmsuit3} {rdmvalue3}");
-                    Console.WriteLine($"Datorn fick {l + rdmvalue3} poäng");
+                    Console.WriteLine("Du förlorade");
+                    break;
+                }
+                if(pcstart > 21)
+                {
+                    Console.WriteLine("Datorn förlorade");
+                    break;
+                }    
 
-                    int e = l + rdmvalue3;
+                 playerstart = value2 + value3;  
+                 pcstart = value4 + value5;
 
-                    if (e > 21)
+                while (sant)
+                {
+                    //Steg 2 (spelaren tur)
+                    int value6 = value[rnd.Next(0, 11)];
+                    string suit4 = suits[rnd.Next(0, 4)];
+                    playervalue = value6 + playerstart;
+                    Console.WriteLine("Du har nu fått ett nytt kort");
+                    Console.WriteLine($"Ditt nya kort kommer att vara {suit4} {value6}");
+                    Console.WriteLine($"Du kommer nu ha {playervalue} poäng");
+                    Console.WriteLine("Vill du dra ett nytt kort (y/n)");
+                    string val2 = Console.ReadLine();
+                    val2.ToLower();
+                    playerstart = playervalue;
+                    
+                    if (val2 == "y")
                     {
-                        Console.WriteLine("");
-                        Console.WriteLine("Du har vunnit");
+                        sant = true;
+                    }
+                    if(val2 == "n")
+                    {
+                        sant=false;
+                    }
+
+                    if(playervalue> 21)
+                    {
+                        Console.WriteLine("Datron vann");
                         break;
                     }
-                    if (e > g)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("Datorn vann du förlorade");
-                        break;
-                    }
-                    else if (e < g)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("Du har Vunnit");
-                        break;
-                    }
 
+                }
+
+                while (true)
+                {
+                    //Steg 2 (Datorn tur)
+                    int value7 = value[rnd.Next(0, 11)];
+                    string suit5 = suits[rnd.Next(0, 4)];
+
+                    Console.WriteLine($"Datron drog ett {suit5} {value7}");
+                    Console.WriteLine($"Datorn slutade på {value7 + pcstart} poäng");
+                    Console.WriteLine($"Du slutade med {playervalue} poäng");
+
+                    int PCend = value7 + pcstart;
+                    if (PCend > 15) break;
                 }
             }
         }
     }
 }
+
+
 
